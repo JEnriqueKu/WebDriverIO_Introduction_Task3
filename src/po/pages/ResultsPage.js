@@ -1,9 +1,7 @@
-import {BasePage} from "./BasePage.js";
 import {ResultsSection} from "../components/results/ResultsSection.js";
 
-export class ResultsPage extends BasePage{
+export class ResultsPage {
     constructor() {
-        super();
         this.resultsSection = new ResultsSection();
     }
 

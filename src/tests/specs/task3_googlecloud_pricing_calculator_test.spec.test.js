@@ -1,22 +1,22 @@
-import {pages} from "../../po/pages/index.js";
+import {pages} from "../../po/index.js";
 
 describe('Google Cloud Pricing Calculator functionality Tests', () => {
-    let pastePageUrl;
 
-    beforeEach( async  () => {
+    before( async  () => {
         await pages("HomePage").open();
         await browser.maximizeWindow();
         //search Google Cloud Platform Pricing Calculator
         await pages("HomePage").header.searchInSearchField("Google Cloud Platform Pricing Calculator");
-        await pages("ResultsPage").resultsSection.clickOnPricingCalculatorResult();
+        await pages("ResultsPage").resultsSection.desiredResult.click()
         //open the form
-        await pages("PricingCalculator").clickOnAddEstimate();
-        await pages("PricingCalculator").addEstimate.clickOnComputeEngine();
+        await pages("PricingCalculator").addEstimateButton.click();
+        await pages("PricingCalculator").addEstimate.computeEngine.click();
         //filling the form
         await pages("PricingCalculator").computeEngine.setNumberOfInstancesIn(4);
         await pages("PricingCalculator").computeEngine.selectMachineTypeN1Standard8();
-        await pages("PricingCalculator").computeEngine.selectAddGPUs();
+        await pages("PricingCalculator").computeEngine.addGpusButton.click();
         await pages("PricingCalculator").computeEngine.selectGPUModel("NVIDIA V100");
+        await pages("PricingCalculator").closeMessageContainer();
         await pages("PricingCalculator").computeEngine.selectNumberOfGPUs("1");
         await pages("PricingCalculator").computeEngine.selectLocalSSD2x375GB();
         await pages("PricingCalculator").computeEngine.selectRegionNetherlands();
@@ -25,31 +25,29 @@ describe('Google Cloud Pricing Calculator functionality Tests', () => {
 
     it('should create an estimate with specified configurations and validate the price is calculated in the right section of the calculator', async () => {
         //get values
-        const estimatedCost = (await pages("PricingCalculator").costDetails.estimatedCostText()).replace(/\n+/g, " ");
+        const estimatedCost = await pages("PricingCalculator").costDetails.estimatedCostText()
         const expectedCost = `ESTIMATED COST $[amount] / mo`
         //check the price
-        expect(estimatedCost.replace(/\$\d{1,3}(,\d{3})*(\.\d{1,2})?/, '$$[amount]')).toEqual(expectedCost);
+        expect(estimatedCost).toEqual(expectedCost);
 
     });
 
     it('should verify the filled form data matches the summary', async () => {
         //Open estimate summary
-        await pages("PricingCalculator").closeMessageContainer();
         await pages("PricingCalculator").costDetails.clickShareButton();
-        await pages("PricingCalculator").shareEstimate.clickOpenEstimateSummary();
+        await pages("PricingCalculator").shareEstimate.openEstimateSummary.click();
         await pages("PricingCalculator").changeTab();
         //get values of Cost Estimate Summary
-        const machineType = await pages("SummaryPage").costEstimateSummary.machineTypeText();
-        const gpuModel = await pages("SummaryPage").costEstimateSummary.gpuModelText();
-        const numberOfGpus = await pages("SummaryPage").costEstimateSummary.numberOfGpusText();
-        const LocalSsd = await pages("SummaryPage").costEstimateSummary.localSsdText();
-        const numberOfInstances = await pages("SummaryPage").costEstimateSummary.numberOfInstancesText();
-        const operatingSystem = await pages("SummaryPage").costEstimateSummary.operatingSystemText();
-        const provisionalModel = await pages("SummaryPage").costEstimateSummary.provisionalModelText();
-        const addGpus = await pages("SummaryPage").costEstimateSummary.addGpusText();
-        const region = await pages("SummaryPage").costEstimateSummary.regionText();
-        const committedUse = await pages("SummaryPage").costEstimateSummary.committedUseText();
-
+        const machineType = await pages("SummaryPage").costEstimateSummary.machineType.getText();
+        const gpuModel = await pages("SummaryPage").costEstimateSummary.gpuModel.getText();
+        const numberOfGpus = await pages("SummaryPage").costEstimateSummary.numberOfGpus.getText();
+        const LocalSsd = await pages("SummaryPage").costEstimateSummary.localSsd.getText();
+        const numberOfInstances = await pages("SummaryPage").costEstimateSummary.numberOfInstances.getText();
+        const operatingSystem = await pages("SummaryPage").costEstimateSummary.operatingSystem.getText();
+        const provisionalModel = await pages("SummaryPage").costEstimateSummary.provisionalModel.getText();
+        const addGpus = await pages("SummaryPage").costEstimateSummary.addGpus.getText();
+        const region = await pages("SummaryPage").costEstimateSummary.region.getText();
+        const committedUse = await pages("SummaryPage").costEstimateSummary.committedUse.getText();
         //verify the values matches
         expect(machineType).toEqual("n1-standard-8, vCPUs: 8, RAM: 30 GB");
         expect(gpuModel).toEqual("NVIDIA V100");

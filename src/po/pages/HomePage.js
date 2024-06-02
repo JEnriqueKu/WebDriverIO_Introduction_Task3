@@ -1,12 +1,15 @@
-import {BasePage} from "./BasePage.js";
 import {Header} from "../components/common/Header.js";
+import {openPage} from "../utils/CommonFunctions.js";
 
 
-export class HomePage extends BasePage{
+export class HomePage {
     constructor() {
-        super("https://cloud.google.com/");
+        this.url = "https://cloud.google.com/";
         this.header = new Header();
     }
 
+    open(){
+        return openPage(this.url);
+    }
 
 }

@@ -3,7 +3,7 @@ import {BaseComponent} from "./BaseComponent.js";
 
 export class Header extends BaseComponent{
     constructor() {
-        super(".TDbJKc");
+        super("div.TDbJKc");
     }
 
     get searchFieldButton(){

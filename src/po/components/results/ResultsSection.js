@@ -9,7 +9,4 @@ export class ResultsSection extends BaseComponent{
         return this.rootElement.$(".gsc-thumbnail-inside [href=\"https://cloud.google.com/products/calculator\"]")
     }
 
-    clickOnPricingCalculatorResult(){
-        return this.desiredResult.click();
-    }
 }

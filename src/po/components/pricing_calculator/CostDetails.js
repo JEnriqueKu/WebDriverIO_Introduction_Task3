@@ -10,18 +10,17 @@ export class CostDetails extends BaseComponent{
     }
 
     get shareButton(){
-        return this.rootElement.$(".FOBRw-kBDsod-Rtc0Jf-OWXEXe-M1Soyc");
+        return $("button[aria-label='Open Share Estimate dialog'] span[jsname='Xr1QTb']");
     }
 
     async estimatedCostText(){
-        const text = await this.estimatedCost.getText();
+        let text = (await this.estimatedCost.getText()).replace(/\n+/g, " ");
+        text = text.replace(/\$\d{1,3}(,\d{3})*(\.\d{1,2})?/, '$$[amount]');
         return text;
     }
 
     async clickShareButton(){
-        await this.shareButton.scrollIntoView();
-        await browser.scroll(0,-1000);
-        await this.shareButton.waitForClickable();
+        await browser.pause(500);
         await this.shareButton.click();
     }
 }

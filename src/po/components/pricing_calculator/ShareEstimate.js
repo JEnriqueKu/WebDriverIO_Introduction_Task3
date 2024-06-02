@@ -6,12 +6,7 @@ export class ShareEstimate extends BaseComponent{
     }
 
     get openEstimateSummary(){
-        return this.rootElement.$(" .MExMre");
+        return this.rootElement.$("a[track-name='open estimate summary']");
     }
 
-    async clickOpenEstimateSummary(){
-        await this.openEstimateSummary.scrollIntoView();
-        await browser.scroll(0,-1000);
-        await this.openEstimateSummary.click();
-    }
 }

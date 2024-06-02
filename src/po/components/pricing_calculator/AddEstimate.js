@@ -6,12 +6,8 @@ export class AddEstimate extends BaseComponent{
     }
 
     get computeEngine(){
-        return this.rootElement.$(".DzHYNd > :first-child .PtwYlf")
+        return this.rootElement.$("//h2[text()='Compute Engine']")
     }
 
-    async clickOnComputeEngine(){
-        await this.computeEngine.waitForClickable();
-        await this.computeEngine.click();
-    }
 
 }

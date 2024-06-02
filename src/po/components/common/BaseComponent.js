@@ -7,8 +7,4 @@ export class BaseComponent {
         return $(this.rootSelector);
     }
 
-    async scrollToElement(selector){
-        await selector.scrollIntoView();
-        await browser.scroll(0,-300);
-    }
 }
